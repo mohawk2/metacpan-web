@@ -120,6 +120,14 @@ builder {
             $app->($env);
         };
     };
+    enable CSPHeaders => (
+        default_src => [qw(* 'unsafe-inline')],
+        script_src  => [ qw(
+            'self' 'unsafe-inline' *.metacpan.org
+            *.google-analytics.com *.google.com *.flattr.com
+        ) ],
+        frame_ancestors => [qw('self' *.metacpan.org)],
+    );
     enable sub {
         my $app = shift;
         sub {
